@@ -21,11 +21,19 @@ cp -Rf /tmp/src/. $SOURCE
 cd $SOURCE
 
 echo "---> Downloading dependencies..."
-go get -v ./...
+go get -u github.com/FiloSottile/gvt
+gvt restore
 
 echo "---> Building application source..."
-go build -v -o main
-go install main
+cd $SOURCE/cmd/paymentsvc
+go build -o main
+#go install main
+#mv $GOPATH/bin/paymentsvc /usr/local/go/src/main
+mv $SOURCE/cmd/paymentsvc/main $GOBIN/main
+sudo setcap 'cap_net_bind_service=+ep' $GOBIN/main
+
+#remove sudo from default user
+sudo mv /etc/sudoers.bak /etc/sudoers
 
 echo
 echo "===> Build completed at $(date)"
