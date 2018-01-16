@@ -32,7 +32,6 @@ go build -o main
 mv $SOURCE/cmd/paymentsvc/main $GOBIN/main
 sudo setcap 'cap_net_bind_service=+ep' $GOBIN/main
 
-#remove sudo from default user
 sudo mv /etc/sudoers.bak /etc/sudoers
 
 echo
